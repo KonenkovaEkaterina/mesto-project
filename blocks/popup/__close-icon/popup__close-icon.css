@@ -12,6 +12,7 @@
   position: absolute;
   right: -40px;
   top: -40px;
+  transition: opacity 0.2s;
 }
 
 .popup__close-icon:hover {

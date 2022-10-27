@@ -10,6 +10,7 @@
   line-height: 22px;
   background: #000;
   border-radius: 2px;
+  transition: opacity 0.2s;
 }
 
 .popup__submit-button:hover {
