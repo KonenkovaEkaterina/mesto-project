@@ -11,3 +11,10 @@
   background-position: center;
   display: block;
 }
+
+@media (max-width: 600px){
+  .popup__main-container {
+    width: 282px;
+    height: 322px;
+  }
+}

@@ -8,3 +8,12 @@
   line-height: 29px;
   color: #000;
 }
+
+@media (max-width: 600px) {
+  .popup__heading {
+    font-size: 18px;
+    line-height: 22px;
+    padding-left: 22px;
+    padding-top: 25px;
+  }
+}
