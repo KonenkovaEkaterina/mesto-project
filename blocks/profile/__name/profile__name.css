@@ -8,7 +8,7 @@
   width: 294px;
 }
 
-@media (max-width: 1279px) and (min-width: 1025px) {
+@media (max-width: 1279px) {
   .profile__name {
     width: calc(294px - 20px);
     font-size: calc(42px - 5px);
@@ -16,7 +16,7 @@
   }
 }
 
-@media (max-width: 1024px) and (min-width: 885px) {
+@media (max-width: 1024px) {
   .profile__name {
     width: calc(294px - 20px - 20px);
     font-size: calc(42px - 5px - 5px);
