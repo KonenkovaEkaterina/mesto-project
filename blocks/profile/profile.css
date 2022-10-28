@@ -1,7 +1,6 @@
 .profile {
   margin: 0 auto;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   width: 880px;
   padding-top: 40px;
@@ -12,7 +11,7 @@
     width: calc(880 / 1280 * 100%);
     /*68.75%*/
     padding-top: calc(40/1280*100%);
-    }
+  }
 }
 
 @media (max-width:884px) {

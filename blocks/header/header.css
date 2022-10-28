@@ -7,11 +7,24 @@
   padding-top: 45px;
 }
 
+.header::after{
+  content: '';
+  background-color: #545;
+  height: 1px;
+  display: block;
+  margin: 40px 0 0 0;
+  opacity: 0.7;
+}
+
 @media (max-width: 1279px) {
   .header {
     width: calc(880/1280*100%);
     /*68.75%*/
     padding-top: calc(45/1280*100%);
+  }
+
+  .header::after{
+    margin-top: calc(40px - 2.8px);
   }
 }
 
@@ -19,5 +32,9 @@
   .header {
     width: 100%;
     padding-top: 28px;
+  }
+
+  .header::after {
+    margin-top: 31.6px;
   }
 }
