@@ -1,5 +1,5 @@
 .profile__info {
-  margin: 0 auto;
+  margin: 0;
   width: 336px;
   display: grid;
   grid-template-columns: auto auto;
@@ -10,7 +10,6 @@
 @media (max-width: 1279px) {
   .profile__info {
     width: calc(336px - 18px);
-    height: calc(73px - 6.3px);
     grid-gap: 7px 16px;
   }
 }
@@ -18,7 +17,6 @@
 @media (max-width: 1024px) {
   .profile__info {
     width: calc(336px - 18px - 18px);
-    height: calc(73px - 6.3px - 6.3px);
     grid-gap: 7px 14px;
   }
 }
