@@ -1,0 +1,19 @@
+.slowly-close {
+  margin: 0;
+  padding: 0;
+  animation-name: slowly-close;
+  animation-duration: 0.4s;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes slowly-close {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}

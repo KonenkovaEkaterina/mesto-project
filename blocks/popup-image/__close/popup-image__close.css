@@ -1,6 +1,6 @@
-.popup__close-icon {
-  margin: 0;
-  padding: 0;
+.popup-image__close {
+	margin: 0;
+	padding: 0;
   background-image: url(../../../images/CloseIcon.svg);
   width: 32px;
   height: 32px;
@@ -10,19 +10,19 @@
   border: 0;
   transition: opacity 0.2s;
   position: absolute;
-  right: -40px;
   top: -40px;
+  right: -40px;
 }
 
-.popup__close-icon:hover {
+.popup-image__close:hover {
   opacity: 0.6;
 }
 
 @media (max-width: 600px) {
-  .popup__close-icon {
+  .popup-image__close {
     width: 20px;
     height: 20px;
-    right: 0px;
-    top: -36px;
+    right: 1px;
+    top: -35px;
   }
 }
