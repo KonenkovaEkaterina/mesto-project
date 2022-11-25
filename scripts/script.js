@@ -1,6 +1,6 @@
 const buttonProfile = document.querySelector('.profile__edit-button');
-const popup = document.querySelector('#popup-profile');
-const popupCloseIcon = document.querySelector('#popup-profile__close-icon');
+const popupProfile = document.querySelector('#popup-profile');
+const popupProfileCloseIcon = document.querySelector('#popup-profile__close-icon');
 const inputPopupName = document.querySelector('#popup-profil__input_name');
 const inputPopupProfession = document.querySelector('#popup-profil__input_profession');
 const formProfile = document.querySelector('#popup-profile__container');
@@ -37,7 +37,7 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   },
   {
-    name: ' Смоленск',
+    name: 'Смоленск',
     link: 'https://images.unsplash.com/photo-1588214736129-c72728bb39f0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=435&q=80'
   },
   {
@@ -46,34 +46,43 @@ const initialCards = [
   }
 ];
 
+//открытие попапа
+function openPopup(popup) {
+  popup.classList.add('slowly-open'); //добавляем класс попапу для его медленного окткрытия
+  popup.classList.add('popup_opened'); //добавляем класс попапу для его окткрытия
+}
+
+// закрытие попапа
+function closePopup(popup) {
+  popup.classList.remove('slowly-open'); //удаляем класс попапу для медленного открытия
+  popup.classList.add('slowly-close'); //добавляем класс попапу для его медленного закрытия
+
+  //удаляем класс popup_opened после окончания slowly-close
+  popup.addEventListener('animationend', function () {
+    if (popup.classList.contains('slowly-close')) {
+      popup.classList.remove('popup_opened'); //удаляем класс попапу для его полного закрытия
+      popup.classList.remove('slowly-close'); //удаляем класс попапу для его полного закрытия
+    }
+  });
+}
+
 //открытие попап Профиль
 function showPopupProfile() {
   inputPopupName.value = profileName.textContent; //передаем текстовое содержание из имени Профиля в поле ввода попапа
   inputPopupProfession.value = profileProfession.textContent; //передаем текстовое содержание из профессии Профиля в поле попапа
 
-  popup.classList.add('slowly-open'); //добавляем класс попапу для его медленного окткрытия
-  popup.classList.add('popup_opened'); //добавляем класс попапу для его окткрытия
+  openPopup(popupProfile); //открытие попапа Профиль
 }
 buttonProfile.addEventListener('click', showPopupProfile); //обработчик событий по клику для кнопки для редактирования профиля
 
 //закрытие попап Профиль
 function slowlyClosePopupProfile() {
-  popup.classList.remove('slowly-open'); //удаляем класс попапу для медленного открытия
-  popup.classList.add('slowly-close'); //добавляем класс попапу для его медленного закрытия
+  closePopup(popupProfile);
 }
-popupCloseIcon.addEventListener('click', slowlyClosePopupProfile); //обработчик событий по клику для кнопки закрытия попапа
-
-//функция,которая удаляет класс popup_opened после окончания slowly-close
-function closePopupProfile() {
-  if (popup.classList.contains('slowly-close')) {
-    popup.classList.remove('popup_opened'); //удаляем класс попапу для его полного закрытия
-    popup.classList.remove('slowly-close'); //удаляем класс попапу для его полного закрытия
-  }
-}
-popup.addEventListener('animationend', closePopupProfile); //обработчик событий по окончанию css анимации
+popupProfileCloseIcon.addEventListener('click', slowlyClosePopupProfile); //обработчик событий по клику для кнопки закрытия попапа
 
 //редактирование Профиль
-function formProfileSubmit(evt) {
+function submitProfileForm(evt) {
   evt.preventDefault(); //отменяет стандартную отправку формы.
 
   profileName.textContent = inputPopupName.value; //передаем данные из поля ввода попапа в имя профиля
@@ -81,50 +90,48 @@ function formProfileSubmit(evt) {
 
   slowlyClosePopupProfile(); //закрытие попапа
 }
-formProfile.addEventListener('submit', formProfileSubmit); //обработчик событий по submit для формы профиля
+formProfile.addEventListener('submit', submitProfileForm); //обработчик событий по submit для формы профиля
 // (срабатывает при клике по кнопке у которой type=submit)
 
 //открытие попап Место
 function showPopupMesto() {
-  popupMesto.classList.add('popup_opened'); //добавляем класс попапу для его окткрытия
-  popupMesto.classList.add('slowly-open'); //добавляем класс попапу для его медленного окткрытия
+  openPopup(popupMesto);
 }
 buttonAddProfile.addEventListener('click', showPopupMesto); //обработчик событий по клику для кнопки для открытия попапа Место
 
 //закрытие попап Место
 function slowlyClosePopupMesto() {
-  popupMesto.classList.remove('slowly-open'); //удаляем класс попапу для его закрытия
-  popupMesto.classList.add('slowly-close'); //добавляем класс попапу для его медленного закрытия
+  closePopup(popupMesto);
 }
 popupCloseMesto.addEventListener('click', slowlyClosePopupMesto); //обработчик событий по клику для кнопки закрытия попапа Место
 
-//функция,которая удаляет класс popup_opened после окончания slowly-close
-function closePopupMesto() {
-  if (popupMesto.classList.contains('slowly-close')) {
-    popupMesto.classList.remove('popup_opened'); //удаляем класс попапу для его полного закрытия
-    popupMesto.classList.remove('slowly-close'); //удаляем класс попапу для его полного закрытия
-  }
+// функция закрытия попапа Место-картинка
+function closePopupImege(popup) {
+  popup.classList.remove('slowly-open'); //удаляем класс попапу для медленного открытия
+  popup.classList.add('slowly-close'); //добавляем класс попапу для его медленного закрытия
+
+  //удаляем класс popup_opened после окончания slowly-close
+  popup.addEventListener('animationend', function () {
+    if (popup.classList.contains('slowly-close')) {
+      popup.classList.remove('popup-image_opened'); //удаляем класс попапу для его полного закрытия
+      popup.classList.remove('slowly-close'); //удаляем класс попапу для его полного закрытия
+    }
+  });
 }
-popupMesto.addEventListener('animationend', closePopupMesto); //обработчик событий по окончанию css анимации
 
 //закрытие попапа Место-картинка
 function slowlyClosePopupMestoPicture() {
-  popupImage.classList.remove('slowly-open'); //удаляем класс попапу для его закрытия
-  popupImage.classList.add('slowly-close'); //добавляем класс попапу для его медленного закрытия
+  closePopupImege(popupImage);
 }
 popupCloseImage.addEventListener('click', slowlyClosePopupMestoPicture); //обработчик событий по клику для кнопки закрытия попапа Место-картинка
 
-//функция,которая удаляет класс popup_opened после окончания slowly-close
-function closePopupMestoPicture() {
-  if (popupImage.classList.contains('slowly-close')) {
-    popupImage.classList.remove('popup-image_opened'); //удаляем класс попапу для его полного закрытия
-    popupImage.classList.remove('slowly-close'); //удаляем класс попапу для его полного закрытия
-  }
-}
-popupImage.addEventListener('animationend', closePopupMestoPicture); //обработчик событий по окончанию css анимации
-
 //функция добавления карточки Место
-function addMesto(card) {
+function addMesto(card, container) {
+  container.prepend(card);
+}
+
+//функция создания карточки Место
+function createMesto(card) {
   const elementTemplate = document.querySelector('#element-template').content; //получение template
   const elementMesto = elementTemplate.querySelector('.element').cloneNode(true); // клонируем  html-блок с классом element в переменную
 
@@ -136,13 +143,11 @@ function addMesto(card) {
     evt.target.classList.toggle('element__like_active'); //Метод toggle работает как add, если у элемента класс отсутствует,
     // и как remove — если присутствует. То есть метод переключает класс у элемента
   });
-
   //удаление элемента Место
   elementMesto.querySelector('.element__trash').addEventListener('click', function (evt) { //обработчик событий по клику по мусорке
     const listElementsContainer = evt.target.closest('.element'); //получение ближайшего родителя с классом еlement
     listElementsContainer.remove(); //удаляем весь блок полученный выше
   });
-
   //открытие попапа Место-картинка
   elementMesto.querySelector('.element__image').addEventListener('click', function (evt) { //обработчик событий по клику по картинке
     // Получение ссылки на картинку
@@ -161,24 +166,31 @@ function addMesto(card) {
     popupImage.classList.add('slowly-open'); //добавляем класс попапу для его медленного окткрытия
   });
 
-  elementsContainer.prepend(elementMesto); //добавление клонированного блока в начало контейнера elements
+  return elementMesto; //возвращает объект Место
 }
 
 //редактирование карточки Место
-function formMestoSubmit(evt) {
+function submitMestoForm(evt) {
   evt.preventDefault(); //отменяет стандартную отправку формы.
 
   const title = document.querySelector('#popup-mesto__input_title'); //получаем название из попапа Место
   const link = document.querySelector('#popup-mesto__input_link'); //получаем ссылкуе из попапа Место
-  const newCard = { name: title.value, link: link.value };
+  const newCardInfo = { name: title.value, link: link.value };
 
-  addMesto(newCard);//добавляем карточку или так addMesto({name: title.value, link: link.value});
+
+  const newCard = createMesto(newCardInfo);//добавляем карточку или так addMesto({name: title.value, link: link.value});
+  addMesto(newCard, elementsContainer);
+
   slowlyClosePopupMesto(); //закрываем попап Место
 
   title.value = ''; //обнуляем название в попапе
   link.value = ''; //обнуляем ссылку в попапе
 }
-formMesto.addEventListener('submit', formMestoSubmit); //обработчик событий по submit для формы попапа Место
-// (срабатывает при клике по кнопке у которой type=submit)
+formMesto.addEventListener('submit', submitMestoForm); //обработчик событий по submit для формы попапа Место
+                                                      // (срабатывает при клике по кнопке у которой type=submit)
 
-initialCards.forEach(addMesto); //добовляем карточки из массива объекотов
+//добовляем карточки из массива объекотов
+initialCards.forEach(function (cardInfo) {
+  const newCard = createMesto(cardInfo);
+  addMesto(newCard, elementsContainer);
+});
