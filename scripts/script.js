@@ -16,8 +16,8 @@ const elementImage = document.querySelector('.element__image');
 const buttonMestoSubmit = document.querySelector('#popup-mesto__submit-button');
 const formMesto = document.querySelector('#popup-mesto__container');
 const buttonTrash = document.querySelector('.element__trash');
-const popupImage = document.querySelector('.popup-image');
-const popupCloseImage = document.querySelector('.popup-image__close');
+const popupImage = document.querySelector('#popup-picture');
+const popupCloseImage = document.querySelector('#popup-picture__close-icon');
 
 const initialCards = [
   {
@@ -47,63 +47,42 @@ const initialCards = [
 ];
 
 //открытие попапа
-function openPopup(evt) {
-  let popup = null; //будет хранится переменная попапа
-  if (evt.target.classList.contains('profile__edit-button')) { //проверяем наличие класса у блока
-    popup = popupProfile;
-  } else if (evt.target.classList.contains('profile__add-button')) {
-    popup = popupMesto;
-  } else {
-    popup = popupImage;
-  }
-
+function openPopup(popup) {
+  popup.classList.add('popup_opened'); //добавляем класс попапу для его окткрытия
   popup.classList.add('slowly-open'); //добавляем класс попапу для его медленного окткрытия
-  if (popup.classList.contains('popup')) {
-    popup.classList.add('popup_opened'); //добавляем класс попапу для его окткрытия
-  } else {
-    popupImage.classList.add('popup-image_opened'); //открываем попап
-  }
 }
 
 // закрытие попапа
-function closePopup(evt) {
-  let popup = evt.target.closest('.popup'); // переменная содержат объект попапа
-  if (popup === null) {
-    popup = evt.target.closest('.popup-image');
-  }
+function closePopup(popup) {
   popup.classList.remove('slowly-open'); //удаляем класс попапу для медленного открытия
   popup.classList.add('slowly-close'); //добавляем класс попапу для его медленного закрытия
 }
 
 // функция плавного закрытия попапов
-function onAnimationEnd(evt) {
-  const popup = evt.target; // переменная содержат объект попапа
-  let openedClass = ''; // перменная будет содержать имя класса открытого попапа
-  if (evt.target.id === 'popup-profile' || evt.target.id === 'popup-mesto') { // событие "цели" id равно классу попап Профиль
-    openedClass = 'popup_opened';
-  } else {
-    openedClass = 'popup-image_opened';
-  }
-
+function onAnimationEnd(popup) {
   if (popup.classList.contains('slowly-close')) { //проверяем, что происходит имеено закрытие попапа
-    popup.classList.remove(openedClass); //удаляем класс попапу для его полного закрытия
+    popup.classList.remove('popup_opened'); //удаляем класс попапу для его полного закрытия
     popup.classList.remove('slowly-close'); //удаляем класс попапу для его полного закрытия
   }
 }
-popupMesto.addEventListener('animationend', onAnimationEnd); // удаляем класс плавного закрытия
-popupProfile.addEventListener('animationend', onAnimationEnd); // удаляем класс плавного закрытия
-popupImage.addEventListener('animationend', onAnimationEnd); // удаляем класс плавного закрытия
+popupProfile.addEventListener('animationend', () => onAnimationEnd(popupProfile)); // удаляем класс плавного закрытия
+popupMesto.addEventListener('animationend', () => onAnimationEnd(popupMesto)); // удаляем класс плавного закрытия
+popupImage.addEventListener('animationend', () => onAnimationEnd(popupImage)); // удаляем класс плавного закрытия
 
 //открытие попап Профиль
-function showPopupProfile(evt) {
+function showPopupProfile() {
   inputPopupName.value = profileName.textContent; //передаем текстовое содержание из имени Профиля в поле ввода попапа
   inputPopupProfession.value = profileProfession.textContent; //передаем текстовое содержание из профессии Профиля в поле попапа
 
-  openPopup(evt); //открытие попапа Профиль
+  openPopup(popupProfile); //открытие попапа Профиль
 }
 buttonProfile.addEventListener('click', showPopupProfile); //обработчик событий по клику для кнопки для редактирования профиля
 
-popupProfileCloseIcon.addEventListener('click', closePopup); //обработчик событий по клику для кнопки закрытия попапа
+popupProfileCloseIcon.addEventListener('click', () => closePopup(popupProfile)); //обработчик событий по клику для кнопки закрытия попапа
+
+popupCloseMesto.addEventListener('click', () => closePopup(popupMesto)); //обработчик событий по клику для кнопки закрытия попапа
+
+popupCloseImage.addEventListener('click', () => closePopup(popupImage)); //обработчик событий по клику для кнопки закрытия попапа
 
 //редактирование Профиль
 function submitProfileForm(evt) {
@@ -112,16 +91,12 @@ function submitProfileForm(evt) {
   profileName.textContent = inputPopupName.value; //передаем данные из поля ввода попапа в имя профиля
   profileProfession.textContent = inputPopupProfession.value; //передаем данные из поля ввода попапа в профессию профиля
 
-  closePopup(evt); //закрываем попап
+  closePopup(popupProfile); //закрываем попап
 }
 formProfile.addEventListener('submit', submitProfileForm); //обработчик событий по submit для формы профиля
 // (срабатывает при клике по кнопке у которой type=submit)
 
-buttonAddProfile.addEventListener('click', openPopup); //обработчик событий по клику для кнопки для открытия попапа Место
-
-popupCloseMesto.addEventListener('click', closePopup); //обработчик событий по клику для кнопки закрытия попапа Место
-
-popupCloseImage.addEventListener('click', closePopup); //обработчик событий по клику для кнопки закрытия попапа Место-картинка
+buttonAddProfile.addEventListener('click', () => openPopup(popupMesto)); //обработчик событий по клику для кнопки для открытия попапа Место
 
 //функция добавления карточки Место
 function addMesto(card, container) {
@@ -155,12 +130,12 @@ function createMesto(card) {
     const parent = evt.target.closest('.element'); //получение ближайшего родителя с классом еlement
     const name = parent.querySelector('.element__name').textContent; //из родителя elevent получаем доспуп к Имени
     //Передача данных в попап
-    const inputImagePicture = document.querySelector('.popup-image__picture'); //получаем Ссылку на картинку
-    const inputImageName = document.querySelector('.popup-image__name'); // получаеи Имя картинки
+    const inputImagePicture = document.querySelector('.popup__picture'); //получаем Ссылку на картинку
+    const inputImageName = document.querySelector('.popup__picture-name'); // получаеи Имя картинки
     inputImageName.textContent = name; //передаем Имя в попап
     inputImagePicture.src = link; //передаем Сыылку в попап
     //открытие попапа
-    openPopup(evt);
+    openPopup(popupImage);
   });
 
   return elementMesto; //возвращает объект Место
@@ -177,7 +152,7 @@ function submitMestoForm(evt) {
   const newCard = createMesto(newCardInfo);//добавляем карточку или так addMesto({name: title.value, link: link.value});
   addMesto(newCard, elementsContainer);
 
-  closePopup(evt);//закрываем попап Место
+  closePopup(popupMesto);//закрываем попап Место
 
   title.value = ''; //обнуляем название в попапе
   link.value = ''; //обнуляем ссылку в попапе
